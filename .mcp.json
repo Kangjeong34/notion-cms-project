@@ -29,6 +29,15 @@
     "context7": {
       "type": "http",
       "url": "https://mcp.context7.com/mcp"
-    }
+    },
+    "shrimp-task-manager": {
+        "command": "node",
+        "args": ["/Users/Kang/workspace/mcp-shrimp-task-manager/dist/index.js"],
+        "env": {
+          "DATA_DIR": "/Users/Kang/workspace/courses/notion-cms-project/shrimp_data",
+          "TEMPLATES_USE": "en",
+          "ENABLE_GUI": "false"
+        }
+      }
   }
 }
