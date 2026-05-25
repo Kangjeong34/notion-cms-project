@@ -4,15 +4,19 @@ export default function Loading() {
   return (
     <div className="container mx-auto max-w-screen-xl px-4 py-12 space-y-8">
       <div className="space-y-3">
-        <Skeleton className="h-8 w-48" />
-        <Skeleton className="h-4 w-72" />
+        <Skeleton className="h-10 w-48" />
+        <Skeleton className="h-4 w-80" />
       </div>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="flex gap-2">
         {Array.from({ length: 4 }).map((_, i) => (
-          <Skeleton key={i} className="h-32 rounded-xl" />
+          <Skeleton key={i} className="h-8 w-20 rounded-full" />
         ))}
       </div>
-      <Skeleton className="h-64 rounded-xl" />
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <Skeleton key={i} className="h-52 rounded-xl" />
+        ))}
+      </div>
     </div>
   )
 }

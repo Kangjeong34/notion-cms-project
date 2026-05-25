@@ -56,11 +56,6 @@ export function Navbar() {
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          {!isMobile && (
-            <Button size="sm" asChild>
-              <Link href="/sign-in">시작하기</Link>
-            </Button>
-          )}
           {isMobile && (
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
@@ -74,11 +69,6 @@ export function Navbar() {
                 </SheetHeader>
                 <div className="mt-6 flex flex-col gap-4">
                   <NavLinks className="flex-col items-start" onNavigate={() => setOpen(false)} />
-                  <Button asChild className="mt-2">
-                    <Link href="/sign-in" onClick={() => setOpen(false)}>
-                      시작하기
-                    </Link>
-                  </Button>
                 </div>
               </SheetContent>
             </Sheet>

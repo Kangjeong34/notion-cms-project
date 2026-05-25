@@ -1,17 +1,13 @@
 export const siteConfig = {
-  name: "StarterKit",
-  description: "Next.js 16 App Router 기반 모던 웹 스타터킷",
+  name: "책 리뷰 블로그",
+  description: "Notion을 CMS로 활용한 북 리뷰 블로그",
   url: "https://example.com",
   nav: [
     { label: "홈", href: "/" },
-    { label: "예제", href: "/examples" },
-    { label: "대시보드", href: "/dashboard" },
-    { label: "문서", href: "/dashboard/docs" },
-    { label: "설정", href: "/settings" },
+    { label: "카테고리", href: "/categories" },
   ],
   social: {
     github: "https://github.com",
-    twitter: "https://twitter.com",
   },
 }
 

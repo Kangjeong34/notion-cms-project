@@ -40,16 +40,6 @@ export function Footer() {
               <ExternalLink className="h-3.5 w-3.5" />
               GitHub
             </Link>
-            <Link
-              href={siteConfig.social.twitter}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="X (Twitter)"
-              className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <ExternalLink className="h-3.5 w-3.5" />
-              X
-            </Link>
           </div>
         </div>
       </div>
