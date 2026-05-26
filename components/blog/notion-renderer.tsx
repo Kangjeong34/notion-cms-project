@@ -86,21 +86,21 @@ export function NotionRenderer({ blocks }: Props) {
             )
           case "heading_1":
             return (
-              <h1 key={item.id} className="text-3xl font-bold mt-8 mb-2">
+              <h2 key={item.id} className="text-2xl font-bold mt-8 mb-2">
                 <RichTextRenderer richText={item.heading_1.rich_text} />
-              </h1>
+              </h2>
             )
           case "heading_2":
             return (
-              <h2 key={item.id} className="text-2xl font-semibold mt-6 mb-2">
+              <h3 key={item.id} className="text-xl font-semibold mt-6 mb-2">
                 <RichTextRenderer richText={item.heading_2.rich_text} />
-              </h2>
+              </h3>
             )
           case "heading_3":
             return (
-              <h3 key={item.id} className="text-xl font-semibold mt-4 mb-1">
+              <h4 key={item.id} className="text-lg font-semibold mt-4 mb-1">
                 <RichTextRenderer richText={item.heading_3.rich_text} />
-              </h3>
+              </h4>
             )
           case "quote":
             return (
