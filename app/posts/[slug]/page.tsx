@@ -20,22 +20,36 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const post = await getPostBySlug(slug)
+  const post = await getPostBySlug(decodeURIComponent(slug))
   if (!post) return { title: "글을 찾을 수 없습니다" }
 
+  const description = `${post.category} · ${post.tags.join(", ")}`
   return {
     title: post.title,
-    description: `${post.category} · ${post.tags.join(", ")}`,
+    description,
+    openGraph: {
+      title: post.title,
+      description,
+      type: "article",
+      publishedTime: post.publishedAt,
+      tags: post.tags,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description,
+    },
   }
 }
 
 export default async function PostPage({ params }: Props) {
   const { slug } = await params
-  const post = await getPostBySlug(slug)
+  const decodedSlug = decodeURIComponent(slug)
+  const post = await getPostBySlug(decodedSlug)
   if (!post) notFound()
 
   const [blocks, allPosts] = await Promise.all([getPostBlocks(post.id), getPosts()])
-  const currentIndex = allPosts.findIndex((p) => p.slug === slug)
+  const currentIndex = allPosts.findIndex((p) => p.slug === decodedSlug)
   const prevPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null
   const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null
 
@@ -47,6 +61,22 @@ export default async function PostPage({ params }: Props) {
 
   return (
     <div className="container mx-auto max-w-3xl px-4 py-12">
+      {/* JSON-LD 구조화 데이터 — Review + Book 스키마 */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Review",
+            name: post.title,
+            datePublished: post.publishedAt,
+            reviewBody: post.title,
+            itemReviewed: { "@type": "Book", name: post.title },
+            keywords: post.tags.join(", "),
+          }),
+        }}
+      />
+
       {/* 뒤로가기 */}
       <Link
         href="/"

@@ -1,3 +1,4 @@
+import { cache } from "react"
 import type { Post, Category, NotionBlock } from "@/types/notion"
 import { samplePosts, sampleCategories, sampleBlocks } from "@/lib/sample-data"
 
@@ -100,11 +101,11 @@ async function fetchBlocksFromNotion(pageId: string): Promise<NotionBlock[]> {
   return blocks
 }
 
-// 발행된 글 목록 조회 (Published 내림차순)
-export async function getPosts(): Promise<Post[]> {
+// 발행된 글 목록 조회 — React.cache로 같은 요청 내 중복 API 호출 방지
+export const getPosts = cache(async (): Promise<Post[]> => {
   if (USE_SAMPLE_DATA) return samplePosts
   return fetchPostsFromNotion()
-}
+})
 
 // slug로 단일 글 조회
 export async function getPostBySlug(slug: string): Promise<Post | null> {
