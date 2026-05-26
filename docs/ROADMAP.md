@@ -41,25 +41,28 @@ Notion을 CMS로 활용하여 별도 백엔드 없이 책 리뷰를 작성하고
 
 4. **로드맵 업데이트**
 
-   - 로드맵에서 완료된 작업을 완료로 표시
+   - 로드맵에서 완료된 작업을 ✅로 표시
 
 ## 개발 단계
 
 ### Phase 1: 애플리케이션 골격 구축 ✅
 
 - **Task 001: 프로젝트 초기 설정 및 기본 구조 구성** ✅ - 완료
+  - See: `/tasks/001-project-setup.md`
   - ✅ Next.js 16 App Router + TypeScript + Tailwind CSS v4 프로젝트 초기화
   - ✅ shadcn/ui (radix-ui 단일 패키지) 기반 UI 컴포넌트 설치 및 구성
   - ✅ `@notionhq/client` 패키지 설치
   - ✅ 프로젝트 디렉토리 구조 생성 (`app/`, `components/`, `lib/`, `types/`)
 
 - **Task 002: 라우트 구조 및 레이아웃 설정** ✅ - 완료
+  - See: `/tasks/002-route-layout.md`
   - ✅ 전체 라우트 구조 생성: `/`, `/posts/[slug]`, `/categories`, `/categories/[name]`
   - ✅ 루트 레이아웃 (`app/layout.tsx`): ThemeProvider, Navbar, Footer, Toaster 구성
   - ✅ 사이트 설정 중앙 관리 (`lib/config.ts`): 네비게이션, 사이트명, 소셜 URL
   - ✅ 에러 페이지 (`error.tsx`), 404 페이지 (`not-found.tsx`), 로딩 페이지 (`loading.tsx`) 구현
 
 - **Task 003: 타입 정의 및 Notion API 레이어 설계** ✅ - 완료
+  - See: `/tasks/003-notion-api-layer.md`
   - ✅ 데이터 타입 정의 (`types/notion.ts`): `Post`, `Category`, `RichText`, `RichTextAnnotations`, `NotionBlock` 유니온 타입
   - ✅ Notion API 호출 레이어 (`lib/notion.ts`): `getPosts`, `getPostBySlug`, `getPostBlocks`, `getCategories` 함수 구현
   - ✅ 환경 변수 미설정 시 샘플 데이터 폴백 로직 구현 (`USE_SAMPLE_DATA` 분기)
@@ -69,6 +72,7 @@ Notion을 CMS로 활용하여 별도 백엔드 없이 책 리뷰를 작성하고
 ### Phase 2: UI/UX 완성 (샘플 데이터 활용) ✅
 
 - **Task 004: 샘플 데이터 및 블로그 핵심 컴포넌트 구현** ✅ - 완료
+  - See: `/tasks/004-blog-components.md`
   - ✅ 샘플 데이터 생성 (`lib/sample-data.ts`): 6개 글, 4개 카테고리, 상세 본문 블록
   - ✅ `PostCard` 컴포넌트: 제목, 카테고리 뱃지, 발행일, 태그 표시
   - ✅ `PostList` 컴포넌트: 검색 입력, 카테고리 필터 버튼, 글 그리드 표시
@@ -76,6 +80,7 @@ Notion을 CMS로 활용하여 별도 백엔드 없이 책 리뷰를 작성하고
   - ✅ `RichTextRenderer` 컴포넌트: bold, italic, strikethrough, underline, code, link 어노테이션 처리
 
 - **Task 005: 전체 페이지 UI 완성** ✅ - 완료
+  - See: `/tasks/005-full-page-ui.md`
   - ✅ 홈페이지 (`/`): ISR 적용, 글 목록 + 검색 + 카테고리 필터 통합
   - ✅ 글 상세 페이지 (`/posts/[slug]`): 메타데이터 생성, 본문 렌더링, 이전/다음 글 내비게이션
   - ✅ 카테고리 목록 페이지 (`/categories`): 카드 그리드로 카테고리별 글 수 표시
