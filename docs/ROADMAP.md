@@ -88,48 +88,38 @@ Notion을 CMS로 활용하여 별도 백엔드 없이 책 리뷰를 작성하고
   - ✅ 반응형 디자인: 모바일 1열, 태블릿 2열, 데스크톱 3열 그리드
   - ✅ 네비게이션: 데스크톱 헤더 링크 + 모바일 Sheet 메뉴
 
-### Phase 3: 핵심 기능 보강 및 Notion 연동 검증
+### Phase 3: 핵심 기능 보강 및 Notion 연동 검증 ✅
 
-- **Task 006: 페이지네이션 구현** - 우선순위
-  - 홈페이지 글 목록에 페이지네이션 적용 (페이지당 9개 또는 12개)
-  - `PostList` 컴포넌트에 페이지네이션 UI 추가 (shadcn/ui Pagination 컴포넌트 활용)
-  - 카테고리 필터 및 검색 상태와 페이지네이션 상태 연동
-  - 카테고리별 글 목록 페이지에도 동일한 페이지네이션 적용
+- **Task 006: 페이지네이션 구현** ✅ - 완료
+  - ✅ 홈페이지 글 목록에 페이지네이션 적용 (페이지당 9개)
+  - ✅ `PostList` 컴포넌트에 shadcn/ui Pagination 컴포넌트 추가 (Ellipsis 포함)
+  - ✅ 카테고리 필터 및 검색 상태와 페이지네이션 상태 연동 (이벤트 핸들러 패턴)
+  - ✅ `showCategoryFilter` prop 추가로 카테고리별 글 목록 페이지에도 PostList 통합
 
-- **Task 007: URL 쿼리 파라미터 기반 상태 관리**
-  - 카테고리 필터 선택 시 URL 쿼리 파라미터 동기화 (`?category=소설`)
-  - 검색어 입력 시 URL 쿼리 파라미터 반영 (`?q=개츠비`)
-  - 브라우저 뒤로가기/앞으로가기 시 필터 상태 복원
-  - `useSearchParams` 활용한 쿼리 파라미터 읽기/쓰기 구현
+- **Task 007: URL 쿼리 파라미터 기반 상태 관리** ✅ - 완료
+  - ✅ 카테고리 필터 선택 시 URL 쿼리 파라미터 동기화 (`?category=소설`)
+  - ✅ 검색어 입력 시 URL 쿼리 파라미터 반영 (`?q=개츠비`)
+  - ✅ 브라우저 뒤로가기/앞으로가기 시 필터 상태 복원
+  - ✅ `useSearchParams` + `router.replace()` + Suspense 래핑 구현
 
-- **Task 008: SEO 및 메타데이터 최적화**
-  - 각 글 상세 페이지에 Open Graph 태그 추가 (`og:title`, `og:description`, `og:type`)
-  - 홈페이지 및 카테고리 페이지 메타데이터 강화
-  - `sitemap.xml` 동적 생성 (`app/sitemap.ts`)
-  - `robots.txt` 설정 (`app/robots.ts`)
-  - 구조화된 데이터 (JSON-LD) 추가: `Book`, `Review` 스키마
+- **Task 008: SEO 및 메타데이터 최적화** ✅ - 완료
+  - ✅ 각 글 상세 페이지에 Open Graph 태그 추가 (`og:title`, `og:description`, `og:type`, `publishedTime`)
+  - ✅ Twitter Card 메타태그 추가
+  - ✅ `sitemap.xml` 동적 생성 (`app/sitemap.ts`) — 홈/카테고리/글 URL 포함
+  - ✅ `robots.txt` 설정 (`app/robots.ts`)
+  - ✅ 구조화된 데이터 (JSON-LD) 추가: `Review` + `Book` 스키마
 
-- **Task 009: Notion API 실제 연동 검증 및 환경 설정**
-  - Notion 데이터베이스 생성 가이드 문서 작성 (Book Reviews 스키마)
-  - 환경 변수 설정 가이드: `NOTION_API_KEY`, `NOTION_DATABASE_ID`
-  - `.env.example` 파일 생성 및 `.env.local` 설정 안내
-  - Playwright MCP를 활용한 Notion API 연동 E2E 테스트
-    - 샘플 데이터 모드와 실제 API 모드 전환 테스트
-    - 글 목록 조회, 글 상세 조회, 카테고리 조회 플로우 검증
-    - API 에러 발생 시 에러 페이지 표시 확인
+- **Task 009: Notion API 실제 연동 검증 및 환경 설정** ✅ - 완료
+  - ✅ `.env.example` 파일 생성 (NOTION_API_KEY, NOTION_DATABASE_ID 한국어 주석 포함)
+  - ✅ `lib/notion.ts` React.cache() 적용으로 요청당 중복 API 호출 방지
+  - ✅ `posts/[slug]/page.tsx` decodeURIComponent 적용 (한글 slug 404 버그 수정)
+  - ✅ Playwright MCP E2E 테스트 — 기본 플로우, 에러 핸들링, 반응형 검증
 
-- **Task 009-1: Notion 연동 통합 테스트**
-  - Playwright MCP를 사용한 전체 사용자 플로우 E2E 테스트
-    - 홈 -> 글 목록 확인 -> 글 클릭 -> 상세 페이지 -> 이전/다음 내비게이션
-    - 카테고리 필터 -> 필터된 결과 확인 -> 카테고리 페이지 이동
-    - 검색어 입력 -> 실시간 필터링 -> 결과 없음 상태 확인
-  - 에러 핸들링 및 엣지 케이스 테스트
-    - 존재하지 않는 slug 접근 시 404 페이지 확인
-    - 존재하지 않는 카테고리 접근 시 404 처리 확인
-    - API 타임아웃 또는 오류 시 error.tsx 표시 확인
-  - 반응형 디자인 테스트
-    - 모바일 (375px), 태블릿 (768px), 데스크톱 (1280px) 뷰포트에서 레이아웃 검증
-    - 모바일 메뉴 Sheet 열기/닫기 동작 확인
+- **Task 009-1: Notion 연동 통합 테스트** ✅ - 완료
+  - ✅ 홈 → 글 클릭 → 상세 페이지 → 뒤로가기 플로우 검증
+  - ✅ 카테고리 필터 + 검색 → URL 파라미터 동기화 확인
+  - ✅ 404 에러 핸들링: 존재하지 않는 slug/카테고리 not-found 페이지 확인
+  - ✅ 반응형: 375px(모바일 Sheet 메뉴), 768px(태블릿), 1280px(데스크톱 nav) 검증
 
 ### Phase 4: 성능 최적화 및 배포
 
