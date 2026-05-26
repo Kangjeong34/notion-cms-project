@@ -3,7 +3,7 @@ import { BookOpen, Tag } from "lucide-react"
 import { getPosts, getCategories } from "@/lib/notion"
 import { PostList } from "@/components/blog/post-list"
 
-export const revalidate = 3600
+export const revalidate = 86400
 
 export default async function HomePage() {
   const [posts, categories] = await Promise.all([getPosts(), getCategories()])

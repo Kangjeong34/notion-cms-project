@@ -6,7 +6,7 @@ import type { Metadata } from "next"
 import { getPosts, getCategories } from "@/lib/notion"
 import { PostList } from "@/components/blog/post-list"
 
-export const revalidate = 3600
+export const revalidate = 86400
 
 type Props = {
   params: Promise<{ name: string }>

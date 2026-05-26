@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo } from "react"
+import { useMemo, useCallback } from "react"
 import { useSearchParams, useRouter, usePathname } from "next/navigation"
 import type { Post, Category } from "@/types/notion"
 import { PostCard } from "@/components/blog/post-card"
@@ -35,15 +35,18 @@ export function PostList({ initialPosts, categories, showCategoryFilter = true }
   const currentPage = Number(searchParams.get("page") ?? "1")
 
   // URL 파라미터 일괄 업데이트 — 빈 값은 파라미터에서 삭제
-  function updateURL(updates: Record<string, string>) {
-    const params = new URLSearchParams(searchParams.toString())
-    Object.entries(updates).forEach(([k, v]) => {
-      if (v) params.set(k, v)
-      else params.delete(k)
-    })
-    const qs = params.toString()
-    router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false })
-  }
+  const updateURL = useCallback(
+    (updates: Record<string, string>) => {
+      const params = new URLSearchParams(searchParams.toString())
+      Object.entries(updates).forEach(([k, v]) => {
+        if (v) params.set(k, v)
+        else params.delete(k)
+      })
+      const qs = params.toString()
+      router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false })
+    },
+    [searchParams, pathname, router]
+  )
 
   const filteredPosts = useMemo(() => {
     return initialPosts.filter((post) => {

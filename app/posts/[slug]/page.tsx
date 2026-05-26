@@ -7,7 +7,7 @@ import { NotionRenderer } from "@/components/blog/notion-renderer"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 
-export const revalidate = 3600
+export const revalidate = 86400
 
 type Props = {
   params: Promise<{ slug: string }>
