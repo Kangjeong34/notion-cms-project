@@ -32,8 +32,8 @@ export function PostList({ initialPosts, categories }: PostListProps) {
 
   return (
     <div className="space-y-6">
-      {/* 검색창 */}
-      <div role="search" className="relative max-w-sm">
+      {/* 검색창 — max-w-md, 모바일 full width */}
+      <div role="search" className="relative w-full max-w-md">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" aria-hidden="true" />
         <Input
           placeholder="제목 또는 태그로 검색..."
@@ -44,8 +44,8 @@ export function PostList({ initialPosts, categories }: PostListProps) {
         />
       </div>
 
-      {/* 카테고리 필터 버튼 목록 */}
-      <div role="group" aria-label="카테고리 필터" className="flex flex-wrap gap-2">
+      {/* 카테고리 필터 버튼 목록 — 모바일 가로 스크롤 */}
+      <div role="group" aria-label="카테고리 필터" className="flex flex-nowrap gap-2 overflow-x-auto pb-1">
         <button
           type="button"
           onClick={() => setSelectedCategory("")}

@@ -1,8 +1,17 @@
 import Link from "next/link"
-import { Calendar, Tag } from "lucide-react"
+import { Calendar } from "lucide-react"
 import type { Post } from "@/types/notion"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { cn } from "@/lib/utils"
+
+// 카테고리별 accent 색상 맵
+const CATEGORY_COLORS: Record<string, string> = {
+  소설: "bg-indigo-500",
+  자기계발: "bg-amber-500",
+  기술: "bg-emerald-500",
+  에세이: "bg-rose-500",
+}
 
 interface PostCardProps {
   post: Post
@@ -16,6 +25,8 @@ export function PostCard({ post }: PostCardProps) {
     day: "numeric",
   })
 
+  const accentColor = CATEGORY_COLORS[post.category] ?? "bg-slate-400"
+
   return (
     <article>
       <Link
@@ -23,8 +34,11 @@ export function PostCard({ post }: PostCardProps) {
         className="group block"
         aria-label={`${post.title} — ${post.category}`}
       >
-        <Card className="h-full transition-shadow hover:shadow-md">
-          <CardHeader className="pb-3">
+        <Card className="h-full overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
+          {/* 카테고리별 상단 accent 바 */}
+          <div className={cn("h-1 w-full", accentColor)} aria-hidden="true" />
+
+          <CardHeader className="pb-3 pt-4">
             {/* 카테고리 뱃지 및 발행일 */}
             <div className="flex items-center justify-between gap-2 mb-2">
               <Badge variant="secondary">{post.category}</Badge>
@@ -37,19 +51,19 @@ export function PostCard({ post }: PostCardProps) {
               </time>
             </div>
             {/* 글 제목 */}
-            <h2 className="text-lg font-semibold leading-snug group-hover:text-primary transition-colors line-clamp-2">
+            <h2 className="text-base font-semibold leading-snug group-hover:text-primary transition-colors line-clamp-2">
               {post.title}
             </h2>
           </CardHeader>
-          {/* 태그 목록 */}
+
+          {/* 태그 목록 — Badge outline 스타일 */}
           {post.tags.length > 0 && (
             <CardContent className="pt-0">
-              <div className="flex items-center gap-1 flex-wrap" aria-label="태그">
-                <Tag className="h-3 w-3 text-muted-foreground shrink-0" aria-hidden="true" />
+              <div className="flex flex-wrap gap-1" aria-label="태그">
                 {post.tags.map((tag) => (
-                  <span key={tag} className="text-xs text-muted-foreground">
+                  <Badge key={tag} variant="outline" className="text-xs px-2 py-0 font-normal">
                     #{tag}
-                  </span>
+                  </Badge>
                 ))}
               </div>
             </CardContent>

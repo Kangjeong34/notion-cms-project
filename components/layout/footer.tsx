@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator"
 export function Footer() {
   return (
     <footer className="border-t bg-muted/30">
-      <div className="container mx-auto max-w-screen-2xl px-4 py-8">
+      <div className="container mx-auto max-w-6xl px-4 py-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="font-semibold text-foreground">{siteConfig.name}</p>

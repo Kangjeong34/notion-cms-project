@@ -32,7 +32,7 @@ export default async function CategoryPage({ params }: Props) {
   if (filtered.length === 0) notFound()
 
   return (
-    <div className="container mx-auto max-w-screen-xl px-4 py-12 space-y-8">
+    <div className="container mx-auto max-w-6xl px-4 py-12 space-y-8">
       {/* 전체 글 목록으로 돌아가기 */}
       <Link
         href="/"
