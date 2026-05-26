@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import { BookOpen, Tag } from "lucide-react"
 import { getPosts, getCategories } from "@/lib/notion"
 import { PostList } from "@/components/blog/post-list"
@@ -32,9 +33,11 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 글 목록 섹션 */}
+      {/* 글 목록 섹션 — useSearchParams 사용으로 Suspense 필수 */}
       <section aria-label="글 목록">
-        <PostList initialPosts={posts} categories={categories} />
+        <Suspense fallback={<div className="py-16 text-center text-muted-foreground">로딩 중...</div>}>
+          <PostList initialPosts={posts} categories={categories} />
+        </Suspense>
       </section>
     </div>
   )

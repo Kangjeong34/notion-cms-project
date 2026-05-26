@@ -1,9 +1,10 @@
+import { Suspense } from "react"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { ChevronLeft } from "lucide-react"
 import type { Metadata } from "next"
 import { getPosts, getCategories } from "@/lib/notion"
-import { PostCard } from "@/components/blog/post-card"
+import { PostList } from "@/components/blog/post-list"
 
 export const revalidate = 3600
 
@@ -49,11 +50,10 @@ export default async function CategoryPage({ params }: Props) {
         <p className="text-muted-foreground">총 {filtered.length}개의 글</p>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {filtered.map((post) => (
-          <PostCard key={post.id} post={post} />
-        ))}
-      </div>
+      {/* useSearchParams 사용으로 Suspense 필수 */}
+      <Suspense fallback={<div className="py-16 text-center text-muted-foreground">로딩 중...</div>}>
+        <PostList initialPosts={filtered} categories={[]} showCategoryFilter={false} />
+      </Suspense>
     </div>
   )
 }
