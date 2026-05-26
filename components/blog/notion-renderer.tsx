@@ -124,6 +124,7 @@ export function NotionRenderer({ blocks }: Props) {
           case "image": {
             const url = getImageUrl(item)
             return (
+              // 이미지 블록: Notion에서 alt 텍스트를 제공하지 않으므로 빈 alt로 장식 이미지 처리
               <figure key={item.id} className="my-6">
                 <div className="relative w-full aspect-video rounded-lg overflow-hidden">
                   <Image
@@ -132,6 +133,7 @@ export function NotionRenderer({ blocks }: Props) {
                     fill
                     className="object-contain"
                     sizes="(max-width: 768px) 100vw, 768px"
+                    role="presentation"
                   />
                 </div>
               </figure>

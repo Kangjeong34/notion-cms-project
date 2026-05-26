@@ -12,7 +12,7 @@ export function Footer() {
             <p className="font-semibold text-foreground">{siteConfig.name}</p>
             <p className="mt-1 text-sm text-muted-foreground">{siteConfig.description}</p>
           </div>
-          <nav className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+          <nav aria-label="사이트 내비게이션" className="flex flex-wrap gap-4 text-sm text-muted-foreground">
             {siteConfig.nav.map((item) => (
               <Link
                 key={item.href}

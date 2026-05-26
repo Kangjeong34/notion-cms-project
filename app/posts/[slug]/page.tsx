@@ -92,7 +92,7 @@ export default async function PostPage({ params }: Props) {
       <Separator className="mt-12 mb-8" />
 
       {/* 이전/다음 글 내비게이션 */}
-      <nav className="grid grid-cols-2 gap-4 text-sm">
+      <nav aria-label="이전/다음 글" className="grid grid-cols-2 gap-4 text-sm">
         {prevPost ? (
           <Link
             href={`/posts/${prevPost.slug}`}

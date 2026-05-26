@@ -33,12 +33,13 @@ export default async function CategoryPage({ params }: Props) {
 
   return (
     <div className="container mx-auto max-w-screen-xl px-4 py-12 space-y-8">
-      {/* 뒤로가기 */}
+      {/* 전체 글 목록으로 돌아가기 */}
       <Link
         href="/"
+        aria-label="전체 글 목록으로 돌아가기"
         className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
       >
-        <ChevronLeft className="h-4 w-4" />
+        <ChevronLeft className="h-4 w-4" aria-hidden="true" />
         전체 글 보기
       </Link>
 

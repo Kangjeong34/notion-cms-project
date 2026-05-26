@@ -22,7 +22,11 @@ export default async function CategoriesPage() {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {categories.map((cat) => (
-          <Link key={cat.name} href={`/categories/${encodeURIComponent(cat.name)}`}>
+          <Link
+            key={cat.name}
+            href={`/categories/${encodeURIComponent(cat.name)}`}
+            aria-label={`${cat.name} 카테고리 — ${cat.count}개의 글`}
+          >
             <Card className="h-full transition-shadow hover:shadow-md">
               <CardHeader className="pb-2">
                 <h2 className="text-xl font-semibold">{cat.name}</h2>

@@ -8,13 +8,18 @@ export default async function HomePage() {
 
   return (
     <div className="container mx-auto max-w-screen-xl px-4 py-12 space-y-10">
-      <div className="space-y-2">
+      {/* 히어로 섹션 */}
+      <section aria-label="히어로 섹션" className="space-y-2">
         <h1 className="text-4xl font-bold tracking-tight">책 리뷰</h1>
         <p className="text-lg text-muted-foreground">
           읽은 책을 기록하고 생각을 나눕니다.
         </p>
-      </div>
-      <PostList initialPosts={posts} categories={categories} />
+      </section>
+
+      {/* 글 목록 섹션 */}
+      <section aria-label="글 목록">
+        <PostList initialPosts={posts} categories={categories} />
+      </section>
     </div>
   )
 }

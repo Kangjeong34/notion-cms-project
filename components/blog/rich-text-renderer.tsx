@@ -1,16 +1,29 @@
-import type { RichText } from "@/types/notion"
-import { cn } from "@/lib/utils"
+import type { RichText, RichTextAnnotations } from "@/types/notion"
 
-type Props = {
+interface RichTextRendererProps {
   richText: RichText[]
 }
 
-export function RichTextRenderer({ richText }: Props) {
+// 어노테이션에 따라 시맨틱 HTML 요소로 중첩 래핑
+function applyAnnotations(text: string, annotations: RichTextAnnotations): React.ReactNode {
+  let content: React.ReactNode = text
+  if (annotations.code) {
+    content = <code className="font-mono bg-muted px-1 py-0.5 rounded text-sm">{content}</code>
+  }
+  if (annotations.strikethrough) content = <s>{content}</s>
+  if (annotations.underline) content = <u>{content}</u>
+  if (annotations.italic) content = <em>{content}</em>
+  if (annotations.bold) content = <strong>{content}</strong>
+  return content
+}
+
+export function RichTextRenderer({ richText }: RichTextRendererProps) {
   return (
     <>
       {richText.map((segment, i) => {
-        const { bold, italic, strikethrough, underline, code } = segment.annotations
+        const annotated = applyAnnotations(segment.plain_text, segment.annotations)
 
+        // 링크가 있는 경우 <a> 태그로 래핑
         if (segment.text.link) {
           return (
             <a
@@ -18,33 +31,14 @@ export function RichTextRenderer({ richText }: Props) {
               href={segment.text.link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={cn(
-                "text-primary underline underline-offset-4 hover:opacity-80",
-                bold && "font-bold",
-                italic && "italic",
-                strikethrough && "line-through",
-                code && "font-mono bg-muted px-1 rounded text-sm"
-              )}
+              className="text-primary underline underline-offset-4 hover:opacity-80"
             >
-              {segment.plain_text}
+              {annotated}
             </a>
           )
         }
 
-        return (
-          <span
-            key={i}
-            className={cn(
-              bold && "font-bold",
-              italic && "italic",
-              strikethrough && "line-through",
-              underline && "underline underline-offset-2",
-              code && "font-mono bg-muted px-1 rounded text-sm"
-            )}
-          >
-            {segment.plain_text}
-          </span>
-        )
+        return <span key={i}>{annotated}</span>
       })}
     </>
   )
