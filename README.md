@@ -1,36 +1,125 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 책 리뷰 블로그
 
-## Getting Started
+Notion을 CMS로 활용한 책 리뷰 블로그. Notion에서 리뷰를 작성하면 블로그에 자동으로 반영됩니다.
 
-First, run the development server:
+## 주요 기능
+
+- **Notion CMS 연동**: Notion API로 발행된 리뷰를 자동으로 가져와 표시
+- **카테고리 필터링**: 카테고리별 글 목록 및 URL 파라미터 상태 동기화
+- **실시간 검색**: 제목·태그 기반 클라이언트 사이드 검색
+- **페이지네이션**: 페이지당 9개 글 표시
+- **SEO 최적화**: Open Graph, Twitter Card, JSON-LD, sitemap.xml
+- **다크 모드**: 시스템 설정 연동 테마 전환
+- **접근성**: WCAG 2.1 AA 준수 (skip link, aria 속성, 키보드 내비게이션)
+- **ISR**: Next.js Incremental Static Regeneration (24시간 재검증)
+
+## 기술 스택
+
+| 분류 | 기술 |
+|------|------|
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript (strict) |
+| CMS | Notion API (`@notionhq/client`) |
+| Styling | Tailwind CSS v4 |
+| UI Components | shadcn/ui (radix-ui) |
+| Deployment | Vercel |
+
+## 전제 조건
+
+- Node.js 18 이상
+- Notion 계정 및 Integration 생성
+- Notion 데이터베이스 설정 (아래 스키마 참조)
+
+## 로컬 설치 및 실행
 
 ```bash
+# 저장소 클론
+git clone <repository-url>
+cd notion-cms-project
+
+# 의존성 설치
+npm install
+
+# 환경 변수 설정
+cp .env.example .env.local
+# .env.local을 열어 NOTION_API_KEY와 NOTION_DATABASE_ID 입력
+
+# 개발 서버 실행
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+브라우저에서 [http://localhost:3000](http://localhost:3000) 접속.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+> **참고**: 환경 변수를 설정하지 않으면 샘플 데이터로 동작합니다.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 환경 변수
 
-## Learn More
+`.env.example`을 복사하여 `.env.local`로 만들고 값을 입력합니다.
 
-To learn more about Next.js, take a look at the following resources:
+```env
+# Notion Integration 토큰 (https://www.notion.so/my-integrations)
+NOTION_API_KEY=secret_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Notion 데이터베이스 ID (데이터베이스 URL의 32자리 hex 문자열)
+NOTION_DATABASE_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Notion 데이터베이스 설정
 
-## Deploy on Vercel
+데이터베이스명: **Book Reviews**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| 필드명 | 타입 | 설명 |
+|--------|------|------|
+| `Title` | title | 책 제목 + 리뷰 제목 |
+| `Category` | select | 카테고리 (예: 소설, 자기계발, 기술) |
+| `Tags` | multi_select | 세부 태그 (예: 추천, 고전) |
+| `Published` | date | 발행일 |
+| `Status` | select | `초안` 또는 `발행됨` |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`Status = 발행됨`인 항목만 블로그에 표시됩니다.
+
+**Integration 연결 방법:**
+
+1. [Notion Integrations](https://www.notion.so/my-integrations)에서 새 Integration 생성
+2. API 키 복사 → `.env.local`의 `NOTION_API_KEY`에 입력
+3. 데이터베이스 페이지 우상단 `...` → `Connect to` → 생성한 Integration 선택
+4. 데이터베이스 URL에서 32자리 ID 복사 → `NOTION_DATABASE_ID`에 입력
+
+## 배포 (Vercel)
+
+### GitHub 연동 배포 (권장)
+
+1. GitHub에 저장소 push
+2. [Vercel](https://vercel.com)에서 `New Project` → GitHub 저장소 선택
+3. `Environment Variables`에 `NOTION_API_KEY`, `NOTION_DATABASE_ID` 입력
+4. `Deploy` 클릭
+
+### CLI 배포
+
+```bash
+# Vercel CLI 설치
+npm i -g vercel
+
+# 로그인 및 배포
+vercel login
+vercel
+
+# 환경 변수 설정
+vercel env add NOTION_API_KEY
+vercel env add NOTION_DATABASE_ID
+
+# 프로덕션 배포
+vercel --prod
+```
+
+## 개발 명령어
+
+```bash
+npm run dev      # 개발 서버 (포트 3000)
+npm run build    # 프로덕션 빌드
+npm run lint     # ESLint 실행
+```
+
+## 라이선스
+
+MIT
