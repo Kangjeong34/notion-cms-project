@@ -9,9 +9,11 @@ Notion을 CMS로 활용한 책 리뷰 블로그. Notion에서 리뷰를 작성�
 - **실시간 검색**: 제목·태그 기반 클라이언트 사이드 검색
 - **페이지네이션**: 페이지당 9개 글 표시
 - **SEO 최적화**: Open Graph, Twitter Card, JSON-LD, sitemap.xml
-- **다크 모드**: 시스템 설정 연동 테마 전환
+- **다크 모드**: 시스템 설정 연동 테마 전환 + Navbar 토글로 수동 전환
 - **접근성**: WCAG 2.1 AA 준수 (skip link, aria 속성, 키보드 내비게이션)
 - **ISR**: Next.js Incremental Static Regeneration (24시간 재검증)
+- **관리자 페이지**: `/dashboard/posts`에서 초안 포함 전체 글 목록 관리
+- **SNS 공유**: 관리자 글 목록에서 블로그/Twitter/Facebook 공유 링크 복사
 
 ## 기술 스택
 
@@ -62,6 +64,9 @@ NOTION_API_KEY=secret_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 # Notion 데이터베이스 ID (데이터베이스 URL의 32자리 hex 문자열)
 NOTION_DATABASE_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# 배포된 사이트 URL (공유 링크 생성에 사용, 없으면 lib/config.ts의 url 사용)
+NEXT_PUBLIC_SITE_URL=https://your-domain.com
 ```
 
 ## Notion 데이터베이스 설정
@@ -91,7 +96,7 @@ NOTION_DATABASE_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 1. GitHub에 저장소 push
 2. [Vercel](https://vercel.com)에서 `New Project` → GitHub 저장소 선택
-3. `Environment Variables`에 `NOTION_API_KEY`, `NOTION_DATABASE_ID` 입력
+3. `Environment Variables`에 `NOTION_API_KEY`, `NOTION_DATABASE_ID`, `NEXT_PUBLIC_SITE_URL` 입력
 4. `Deploy` 클릭
 
 ### CLI 배포
@@ -107,10 +112,22 @@ vercel
 # 환경 변수 설정
 vercel env add NOTION_API_KEY
 vercel env add NOTION_DATABASE_ID
+vercel env add NEXT_PUBLIC_SITE_URL
 
 # 프로덕션 배포
 vercel --prod
 ```
+
+## 관리자 페이지
+
+`/dashboard/posts`에서 초안을 포함한 모든 글을 테이블로 확인할 수 있습니다.
+
+- **발행됨 / 초안 필터 탭**: 상태별로 글을 필터링
+- **글 제목 링크**: 발행된 글은 클릭 시 블로그 상세 페이지로 이동 (새 탭)
+- **공유 버튼**: 발행된 글의 블로그 링크, Twitter(X), Facebook 공유 링크를 클립보드로 복사
+
+> **보안 주의**: 현재 관리자 페이지는 인증이 적용되지 않습니다.  
+> 프로덕션 배포 시 Vercel의 Password Protection, 또는 미들웨어 기반 접근 제어를 설정하는 것을 권장합니다.
 
 ## 개발 명령어
 

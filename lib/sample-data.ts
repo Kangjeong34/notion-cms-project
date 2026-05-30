@@ -55,6 +55,24 @@ export const samplePosts: Post[] = [
     publishedAt: "2026-04-20",
     status: "발행됨",
   },
+  {
+    id: "7",
+    slug: "deep-work-draft",
+    title: "딥 워크 — 몰입의 기술 (작성 중)",
+    category: "자기계발",
+    tags: ["집중", "생산성"],
+    publishedAt: "",
+    status: "초안",
+  },
+  {
+    id: "8",
+    slug: "design-patterns-draft",
+    title: "디자인 패턴 — GoF 패턴 완전 정복 (작성 중)",
+    category: "기술",
+    tags: ["소프트웨어공학", "패턴"],
+    publishedAt: "",
+    status: "초안",
+  },
 ]
 
 export const sampleCategories: Category[] = [

@@ -56,7 +56,7 @@ MVP 단계에서 다음 항목들이 이미 구축되어 있으므로, 고도화
 
 ## 개발 단계
 
-### Phase 1: 다크 모드 구현
+### ✅ Phase 1: 다크 모드 구현 (완료)
 
 다크 모드는 ThemeProvider가 이미 루트 레이아웃에 마운트되어 있어 빠르게 완료 가능한 단계입니다. 후속 Phase의 관리자 UI에도 일관되게 적용되어야 하므로 가장 먼저 진행합니다.
 
@@ -80,11 +80,11 @@ MVP 단계에서 다음 항목들이 이미 구축되어 있으므로, 고도화
   - Playwright MCP로 라이트/다크 전환 E2E 시나리오 작성 (토글 클릭 → 클래스 변경 → 새로고침 시 유지)
   - 색상 대비 자동 검사 (axe-core 또는 수동 contrast 측정) 4.5:1 이상 유지 확인
 
-### Phase 2: 관리자 레이아웃 및 블로그 목록 페이지 구현
+### ✅ Phase 2: 관리자 레이아웃 및 블로그 목록 페이지 구현 (완료)
 
 다크 모드가 적용된 디자인 시스템 위에 관리자 영역을 구축합니다. 골격(레이아웃·라우트) → UI(테이블) → 데이터 연동 순으로 구조 우선 접근합니다.
 
-- **Task 016: 관리자 라우트 골격 및 사이드바 레이아웃 구축** - 우선순위
+- ✅ **Task 016: 관리자 라우트 골격 및 사이드바 레이아웃 구축** - 우선순위
   - `app/dashboard/layout.tsx` 신규 생성: `SidebarProvider` + `DashboardSidebar` + `SidebarInset` 구성
   - `components/layout/dashboard-sidebar.tsx` 구현 (shadcn/ui Sidebar 기반)
   - 메뉴 항목: 대시보드 홈, 글 목록(`/dashboard/posts`), (확장 대비) 카테고리, 설정
@@ -92,7 +92,7 @@ MVP 단계에서 다음 항목들이 이미 구축되어 있으므로, 고도화
   - 모바일 반응형 사이드바(Sheet 기반 토글) 동작 확인
   - 루트 레이아웃과의 중첩 동작(Navbar/Footer는 표시 유지 또는 숨김 정책 결정) 확정
 
-- **Task 017: 관리자용 Notion API 함수 확장**
+- ✅ **Task 017: 관리자용 Notion API 함수 확장**
   - `lib/notion.ts`에 `getAllPosts(options?)` 신규 추가: `Status` 필터 없이 `초안` + `발행됨` 모두 조회
   - 정렬: `Published` 내림차순, 없으면 `Created time` 폴백
   - 샘플 데이터(`lib/sample-data.ts`)에 `Status: "초안"` 항목 1~2개 추가 (오프라인/환경변수 미설정 시 동작 보장)
@@ -100,7 +100,7 @@ MVP 단계에서 다음 항목들이 이미 구축되어 있으므로, 고도화
   - React `cache()` 적용 및 ISR `revalidate` 정책 결정 (관리자 페이지는 짧게, 예: 60초)
   - Playwright MCP로 샘플 데이터 모드와 실제 Notion 모드 양쪽에서 응답 형태 검증
 
-- **Task 018: 관리자 글 목록 테이블 UI 구현**
+- ✅ **Task 018: 관리자 글 목록 테이블 UI 구현**
   - `app/dashboard/posts/page.tsx`에서 `getAllPosts()` 결과를 테이블로 렌더링
   - shadcn/ui Table 컴포넌트 사용: 컬럼은 제목, 카테고리, 발행일, 상태(뱃지), 액션
   - 상태 뱃지: `발행됨` = 기본 색상, `초안` = secondary/outline 변형
@@ -109,18 +109,18 @@ MVP 단계에서 다음 항목들이 이미 구축되어 있으므로, 고도화
   - 클라이언트 사이드 정렬/필터 UI(상태별 필터 탭) 추가 — 선택 사항이지만 우선순위 높음
   - 반응형: 모바일에서는 카드 형태로 폴백 표시
 
-- **Task 018-1: 관리자 목록 통합 테스트**
+- ✅ **Task 018-1: 관리자 목록 통합 테스트**
   - Playwright MCP로 `/dashboard/posts` 접근 → 글 목록 렌더링 확인
   - 초안/발행됨 상태 필터 동작 검증
   - 발행됨 글 제목 클릭 → 블로그 상세 페이지 이동 검증
   - 사이드바 토글(모바일/데스크톱), 다크 모드 적용 상태에서 시각 검증
   - 빈 상태/에러 상태 핸들링 확인
 
-### Phase 3: SNS 공유 링크 복사 기능 구현
+### ✅ Phase 3: SNS 공유 링크 복사 기능 구현 (완료)
 
 관리자 글 목록의 각 행에서 블로그 직접 링크와 SNS 공유 링크를 클립보드로 빠르게 복사할 수 있도록 구현합니다.
 
-- **Task 019: 공유 링크 생성 유틸리티 구현**
+- ✅ **Task 019: 공유 링크 생성 유틸리티 구현**
   - `lib/share.ts` 신규 작성: 글의 slug와 사이트 base URL로 다음 링크 생성
     - 블로그 직접 링크: `${siteUrl}/posts/${slug}`
     - Twitter(X) 공유 링크: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`
@@ -129,7 +129,7 @@ MVP 단계에서 다음 항목들이 이미 구축되어 있으므로, 고도화
   - URL 인코딩(`encodeURIComponent`) 처리 — 한글 제목/slug 안전 보장
   - 단위 테스트성 순수 함수로 작성 (입력→출력 결정적)
 
-- **Task 020: 공유 메뉴 컴포넌트 (`ShareLinkMenu`) 구현**
+- ✅ **Task 020: 공유 메뉴 컴포넌트 (`ShareLinkMenu`) 구현**
   - `components/dashboard/share-link-menu.tsx` 신규 구현
   - shadcn/ui DropdownMenu 또는 Popover 사용, 트리거는 Lucide `Share2` 또는 `Link` 아이콘 버튼
   - 메뉴 항목: "블로그 링크 복사", "Twitter 공유 링크 복사", "Facebook 공유 링크 복사"
@@ -138,38 +138,38 @@ MVP 단계에서 다음 항목들이 이미 구축되어 있으므로, 고도화
   - 초안 글에는 공유 메뉴 비활성화 또는 숨김 처리 (발행되지 않은 글 노출 방지)
   - 접근성: 버튼 `aria-label`, 메뉴 키보드 내비게이션 보장
 
-- **Task 021: 관리자 글 목록 테이블에 공유 메뉴 통합**
+- ✅ **Task 021: 관리자 글 목록 테이블에 공유 메뉴 통합**
   - Task 018에서 만든 테이블의 "액션" 컬럼에 `ShareLinkMenu` 삽입
   - 각 행의 글 정보(slug, title, status)를 `ShareLinkMenu`에 props로 전달
   - 모바일 카드 폴백 뷰에도 동일한 공유 메뉴 배치
   - 다크 모드 + 라이트 모드 양쪽에서 드롭다운/토스트 가독성 점검
 
-- **Task 021-1: 공유 기능 E2E 테스트**
+- ✅ **Task 021-1: 공유 기능 E2E 테스트**
   - Playwright MCP로 공유 메뉴 열기 → 항목 클릭 → 클립보드 내용 검증(`browser_evaluate`로 `navigator.clipboard.readText()` 호출)
   - 한글 제목 글에 대한 URL 인코딩 정상 동작 확인
   - 초안 글에서 공유 메뉴 비활성화/숨김 동작 검증
   - Toast 알림 표시 및 사라짐 검증
   - HTTPS가 아닌 로컬 환경에서 fallback 경로 검증
 
-### Phase 4: 고도화 통합 검증 및 최적화
+### ✅ Phase 4: 고도화 통합 검증 및 최적화 (완료)
 
 세 가지 기능이 모두 적용된 상태에서 종합 품질을 점검하고 운영 준비를 마무리합니다.
 
-- **Task 022: 통합 회귀 테스트 및 접근성 재검증**
+- ✅ **Task 022: 통합 회귀 테스트 및 접근성 재검증**
   - Playwright MCP로 다크 모드 토글 → 관리자 진입 → 글 목록 조회 → 공유 링크 복사까지 전체 플로우 E2E
   - 모바일(375px) / 태블릿(768px) / 데스크톱(1280px) 3개 뷰포트에서 시각 회귀 점검
   - 사이드바/네비/테이블/공유 메뉴의 키보드 내비게이션 및 포커스 순서 확인
   - axe-core 또는 수동 검사로 WCAG 2.1 AA 색상 대비 재검증 (다크 모드 포함)
   - MVP에서 통과했던 핵심 시나리오(홈→상세→뒤로가기, 카테고리, 404)도 회귀 확인
 
-- **Task 023: 성능 최적화 및 번들 점검**
+- ✅ **Task 023: 성능 최적화 및 번들 점검**
   - 관리자 페이지의 클라이언트 컴포넌트 번들 사이즈 측정 및 코드 스플리팅 점검
   - 다크 모드 토글 / 공유 메뉴 / 사이드바 등 신규 클라이언트 컴포넌트의 `dynamic import` 가능성 검토
   - 관리자 페이지 `revalidate` 정책 최종 확정 (예: 60~300초, 또는 `revalidateTag` 도입 검토)
   - Lighthouse 측정: 라이트/다크 모드 각각에서 Performance, Accessibility, Best Practices, SEO 점수 확인
   - 불필요한 리렌더링 점검: `useCallback`, `useMemo` 적절 적용
 
-- **Task 024: 문서화 및 배포 마무리**
+- ✅ **Task 024: 문서화 및 배포 마무리**
   - `README.md`에 다크 모드, 관리자 페이지(`/dashboard/posts`), 공유 기능 사용법 추가
   - 환경 변수 가이드 업데이트: `NEXT_PUBLIC_SITE_URL` 등 신규 변수 명시 (`.env.example` 갱신)
   - 관리자 페이지 접근에 대한 보안 고려사항 문서화 (현재 MVP 범위에서는 인증 미적용 — 후속 작업 안내)

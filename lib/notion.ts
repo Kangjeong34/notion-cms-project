@@ -63,6 +63,49 @@ async function fetchPostsFromNotion(): Promise<Post[]> {
   })
 }
 
+async function fetchAllPostsFromNotion(): Promise<Post[]> {
+  const { Client, isFullPage } = await import("@notionhq/client")
+
+  const notion = new Client({ auth: process.env.NOTION_API_KEY })
+  const DATABASE_ID = process.env.NOTION_DATABASE_ID!
+
+  const response = await notion.databases.query({
+    database_id: DATABASE_ID,
+    sorts: [{ property: "Published", direction: "descending" }],
+  })
+
+  return response.results.filter(isFullPage).map((page) => {
+    const getTitle = (): string => {
+      const p = page.properties["Title"]
+      return p?.type === "title" ? (p.title[0]?.plain_text ?? "제목 없음") : "제목 없음"
+    }
+    const getSelect = (key: string): string => {
+      const p = page.properties[key]
+      return p?.type === "select" ? (p.select?.name ?? "") : ""
+    }
+    const getMultiSelect = (key: string): string[] => {
+      const p = page.properties[key]
+      return p?.type === "multi_select" ? p.multi_select.map((t) => t.name) : []
+    }
+    const getDate = (key: string): string => {
+      const p = page.properties[key]
+      return p?.type === "date" ? (p.date?.start ?? "") : ""
+    }
+
+    const title = getTitle()
+    const statusRaw = getSelect("Status")
+    return {
+      id: page.id,
+      slug: toSlug(title),
+      title,
+      category: getSelect("Category"),
+      tags: getMultiSelect("Tags"),
+      publishedAt: getDate("Published"),
+      status: statusRaw === "발행됨" ? ("발행됨" as const) : ("초안" as const),
+    }
+  })
+}
+
 async function fetchBlocksFromNotion(pageId: string): Promise<NotionBlock[]> {
   const { Client, isFullBlock } = await import("@notionhq/client")
 
@@ -103,8 +146,14 @@ async function fetchBlocksFromNotion(pageId: string): Promise<NotionBlock[]> {
 
 // 발행된 글 목록 조회 — React.cache로 같은 요청 내 중복 API 호출 방지
 export const getPosts = cache(async (): Promise<Post[]> => {
-  if (USE_SAMPLE_DATA) return samplePosts
+  if (USE_SAMPLE_DATA) return samplePosts.filter((p) => p.status === "발행됨")
   return fetchPostsFromNotion()
+})
+
+// 모든 글 목록 조회 (초안 포함) — 관리자 페이지용
+export const getAllPosts = cache(async (): Promise<Post[]> => {
+  if (USE_SAMPLE_DATA) return samplePosts
+  return fetchAllPostsFromNotion()
 })
 
 // slug로 단일 글 조회
