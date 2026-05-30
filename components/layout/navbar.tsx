@@ -80,6 +80,10 @@ export function Navbar() {
                 </SheetHeader>
                 <div className="mt-6 flex flex-col gap-4">
                   <NavLinks className="flex-col items-start" onNavigate={() => setOpen(false)} />
+                  <div className="flex items-center gap-2 px-3">
+                    <span className="text-sm text-muted-foreground">테마</span>
+                    <ThemeToggle />
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>
